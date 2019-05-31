@@ -1,113 +1,80 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+  <div class="wrap">
+    <div class="menu">
+      <div v-for="(item, index) in menuItems" :key="index" class="menu-item">{{item}}</div>      
+    </div>
+    <div class="card">
+      <div class="card__content">
+        <p>Информация об оплате</p>
+        <div class="bill-number">
+        <span>Номер счета</span>
+        <span>
+          <input v-model.number="billNumber" type="number">
+        </span>
+        </div>
+        <div class="payment-sum">
+          <span>Сумма платежа</span>
+          <span>
+            <input v-model.number="paymentSum" type="number">
+          </span>
+        </div>
+        <h2>Данные банковской карты</h2>
+        <div class="card-front">
+          <p>Номер карты</p>
+          <span>
+            <input type="number" id="card-first-input">
+          </span>
+          <span>
+            <input type="number" id="card-scnd-input">
+          </span>
+          <span>
+            <input type="number" id="card-third-input">
+          </span>
+          <span>
+            <input type="number" id="card-frth-input">
+          </span>
+        </div>
+        <div class="card-back">
+          saf
+        </div>
+
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'Payment',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      menuItems: ['Личный кабинет', 'Платежи', 'История платежей', 'Настройки', 'Выйти'],
+      billNumber: 0,
+      paymentSum: 0
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+
+.wrap {
+  color: white;
+  display: grid;
+  grid-template-columns: 320px 1fr;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+.menu-item {
+  height: 75px;
+  padding-left: 28px;
+  line-height: 75px;
+  cursor: pointer;
+  font-size: 24px;
+  background-color: #1f2229;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+/* .lk, .payments, .payments-history {
+} */
+.settings, .logout {
+  background-color: #191c24;
 }
 </style>
