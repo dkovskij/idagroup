@@ -58,18 +58,22 @@
             <input type="number" id="cvv-input">
           </div>          
         </div>
-        <button>Оплатить</button>
+        <button id="pay-btn">Оплатить</button>
       </div>
         <div class="card-information">
-          Исходя из астатической системы координат Булгакова, соединение стабильно. 
+          <p>Исходя из астатической системы координат Булгакова, соединение стабильно. 
           Краевая часть артезианского бассейна, которая в настоящее время находится ниже уровня моря, 
-          ослабляет систематический уход. Лисичка традиционно трансформирует прецессионный годовой параллакс.
-          Выклинивание абсолютно аккумулирует твердый pадиотелескоп Максвелла.
+          ослабляет систематический уход. Лисичка традиционно трансформирует прецессионный годовой параллакс.</p>
+          <p class="card-information__text">Выклинивание абсолютно аккумулирует твердый pадиотелескоп Максвелла.</p>
+          <p class="card-information__text">
           Алмаз слагает горст. Делювий длительно колеблет лазерный подвижный объект.
+          </p>
+          <p class="card-information__text">
           Устойчивость, например, параллельна. Аргумент перигелия определяет боксит. Проекция вертикально дает уходящий диабаз. 
           Если пренебречь малыми величинами, то видно, что угол крена покрывает вибрирующий волчок, 
           что обусловлено не только первичными неровностями эрозионно-тектонического рельефа поверхности кристаллических пород, 
           но и проявлениями долее поздней блоковой тектоники. Засветка неба заставляет иначе взглянуть на то, что такое волчок.
+          </p>
         </div>
       </div>
     </div>
@@ -114,13 +118,16 @@ export default {
   display: grid;
   grid-template-columns: 320px 1fr;
 }
+input {
+  outline: none;
+}
 
 .menu-item {
   height: 75px;
   padding-left: 28px;
   line-height: 75px;
   cursor: pointer;
-  font-size: 18pt;
+  font-size: 15pt;
   background-color: #1f2229;
 }
 /* .lk, .payments, .payments-history {
@@ -133,7 +140,7 @@ export default {
   position: relative;
 }
 .card__data {
-  height: 570px;
+  height: 500px;
   background-color: #f7f8f8;
   background-clip: border-box;
   padding: 45px 45px 25px 29px;
@@ -160,13 +167,15 @@ export default {
   color: #383d43;
   margin: 17px 0 12px;
 }
-.card-front {  
+.card-front {
+  position: relative;
   border: 1px solid rgb(228, 233, 238);
   border-radius: 10px;
   background-color: #f7f8f8;
   width: 318px;
   height: 201px;
   padding: 25px 15px 15px;
+  z-index: 1;
 }
 #card-first-input, #card-scnd-input, #card-third-input, #card-frth-input {
   width: 64px;
@@ -221,9 +230,9 @@ export default {
   padding-left: 11px;
 }
 .card-back {
-  position: relative;
-  top: -216px;
-  left: 193px;
+  position: absolute;
+  top: 229px;
+  left: 221px;
   width: 369px;
   height: 235px;
   border: 1px solid rgb(228, 233, 238);
@@ -244,10 +253,48 @@ export default {
 .cvv-input-wrap {
   margin-left: 216px;
 }
+.cvv-input-wrap::after {
+  content: '';
+  width: 30px;
+  height: 30px;
+  position: relative;
+  top: -37px;
+  left: 104px;
+  background: url('../assets/ask.png') no-repeat; 
+  display: block;
+
+}
 #cvv-input {
-  width: 137px;
+  width: 125px;
   height: 42px;
   padding-left: 10px;
+  border: 1px solid #e4e9ee;
+  appearance: none;
+  -webkit-appearance: none;  
+}
+#pay-btn {
+  font-size: 11pt;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  width: 133px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: #0056b7;
+  color: #fff;
+  background: linear-gradient( to bottom, #005abf, #004ca2); 
+  border: none;  
+  margin-top: 40px;
+  margin-left: 15px; 
+}
+
+.card-information {
+  padding: 30px;
+  font-size: 9pt;
+  color: #89909d;
+  background-color: #373c43;
+}
+.card-information__text {
+  margin-top: 10px;
 }
 
 </style>
