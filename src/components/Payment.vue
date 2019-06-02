@@ -5,34 +5,35 @@
     </div>
     <div class="card">
       <div class="card__content">
+        <form>
         <div class="card__data">
         <p class="operation-details">Информация об оплате</p>
         <div class="bill-number">
           <span class="operation-details payment-info">Номер счета</span>
           <span>
-            <input v-model.number="billNumber" type="number" class="inp--border-none">
+            <input v-model.number="billNumber" required type="number" class="inp--border-none" @input="setBillNumber($event)">
           </span>
         </div>
         <div class="payment-sum">
           <span class="operation-details payment-info">Сумма платежа</span>
           <span>
-            <input v-model.number="paymentSum" type="number" class="inp--border-none">
+            <input v-model.number="paymentSum" required type="number" class="inp--border-none">
           </span>
         </div>
         <h2 class="caption--font">Данные банковской карты</h2>
         <div class="card-front">
           <p class="operation-details">Номер карты</p>
           <span>
-            <input type="number" id="card-first-input">
+            <input type="text" maxlength="4" required id="card-first-input" class="card-input" @input="setCardNumber($event)" v-model.number="cardFirstInp">
           </span>
           <span>
-            <input type="number" id="card-scnd-input">
+            <input type="text" maxlength="4" required id="card-scnd-input" class="card-input" @input="setCardNumber($event)" v-model.number="cardScndInp">
           </span>
           <span>
-            <input type="number" id="card-third-input">
+            <input type="text" maxlength="4" required id="card-third-input" class="card-input" @input="setCardNumber($event)" v-model.number="cardThirdInp">
           </span>
           <span>
-            <input type="number" id="card-frth-input">
+            <input type="text" maxlength="4" required id="card-frth-input" class="card-input" @input="setCardNumber($event)" v-model.number="cardFrthInp">
           </span>
           <p class="operation-details active-period">Срок действия</p>
           <span>
@@ -48,18 +49,20 @@
             <label for="card-year" id="card-year-label"></label>
           </span>
           <div class="cardholder-input-wrap">
-            <input type="text" id="cardholder-input" placeholder="Держатель карты">
+            <input type="text" id="cardholder-input" v-model="cardholderName" required placeholder="Держатель карты" @input="setCardholderName" :class="{error : isError }">
+            <div v-if="showMsg" class="info-msg">{{infoMsg}}</div>
           </div>
         </div>
         <div class="card-back">
           <div class="magnetic-strip"></div>
           <p class="operation-details cvv-text">Код CVV2/CVC2</p>
           <div class="cvv-input-wrap">
-            <input type="number" id="cvv-input">
+            <input type="text" required maxlength="3" id="cvv-input" @input="setCvvNumber($event)">
           </div>          
         </div>
         <button id="pay-btn">Оплатить</button>
       </div>
+      </form>
         <div class="card-information">
           <p>Исходя из астатической системы координат Булгакова, соединение стабильно. 
           Краевая часть артезианского бассейна, которая в настоящее время находится ниже уровня моря, 
@@ -92,23 +95,74 @@ export default {
         "Настройки",
         "Выйти"
       ],
-      billNumber: 0,
-      paymentSum: 0,
-      cardYear: []           
+      billNumber: 1234,
+      paymentSum: 100,
+      cardYear: [],
+      cardFirstInp: '',
+      cardScndInp: '',
+      cardThirdInp: '',
+      cardFrthInp: '',
+      cardNumber: [],
+      cardholderName: '',
+      showMsg: false,
+      infoMsg: 'Пожалуйста, проверьте корректность введенных данных',
+      regexp: /[a-z]/,
+      isError: false
     };
+  },
+  methods: {
+    setCvvNumber(event) {
+      if (event.target.value.length < 3) {
+        event.target.style.outline = '1px solid red'
+      } else {
+        event.target.style.outline = ''
+      }
+    },
+    setBillNumber(event) {
+      if (event.target.value.length === 0) {
+        event.target.style.outline = '1px solid red'
+      } else {
+        event.target.style.outline = ''
+      }
+    },
+    setCardNumber(event) {
+      if (event.target.value.length < 4) {
+        event.target.style.outline = '1px solid red'
+      } else {
+        event.target.style.outline = ''
+      }
+    },
+    setCardholderName() {
+      if (this.cardholderName.length === 0) {
+        this.showMsg = false
+        this.isError = false
+      } else if ( this.cardholderName.length < 4 || !this.cardholderName.match(this.regexp) ) {
+        this.showMsg = true
+        this.isError = true
+      } else {
+        this.showMsg = false
+        this.isError = false
+      }
+    }
   },
   computed: {
         getYear() {
           let date = new Date()
           return date.getFullYear()                 
-        }
+        },
+
       },
   created() {
     let startYear = this.getYear - 10
         for (let i = 0; i < 20; i++) {
           this.cardYear.push(startYear + i)
       }
-  }
+  },
+  updated() {
+    this.cardNumber = [this.cardFirstInp, this.cardScndInp, this.cardThirdInp, this.cardFrthInp]
+    this.cardNumber.join('')
+    // console.log(this.cardNumber)
+  },
 };
 </script>
 
@@ -158,7 +212,7 @@ input {
   color: #bec6cf;
 }
 .payment-info {
-  width: 160px;
+  width: 200px;
   display: inline-block;
   margin-top: 10px;
 }
@@ -173,14 +227,15 @@ input {
   border-radius: 10px;
   background-color: #f7f8f8;
   width: 318px;
-  height: 201px;
+  min-height: 201px;
   padding: 25px 15px 15px;
   z-index: 1;
 }
-#card-first-input, #card-scnd-input, #card-third-input, #card-frth-input {
+.card-input {
   width: 64px;
   height: 42px;
   border: 1px solid #e4e9ee;
+  text-align: center;
 }
 #card-scnd-input, #card-third-input, #card-frth-input {
   margin-left: 3px;
@@ -285,6 +340,8 @@ input {
   border: none;  
   margin-top: 40px;
   margin-left: 15px; 
+  outline: none;
+  cursor: pointer;
 }
 
 .card-information {
@@ -295,6 +352,13 @@ input {
 }
 .card-information__text {
   margin-top: 10px;
+}
+.info-msg {
+  color: #89909d;
+  font-size: 10px;
+}
+.error {
+  outline: 1px solid red;
 }
 
 </style>
