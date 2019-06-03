@@ -6,10 +6,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    billNumber: 1234,
-    paymentSum: 100,
-    cvvNumber: '',
-    cardholderName: '', 
     menuItems: [
       "Личный кабинет",
       "Платежи",
@@ -36,9 +32,7 @@ export default new Vuex.Store({
     updateCardholderName (state, number) {
       state.cardholderName = number
     },
-  },
-  
+  },  
   actions: {
-    // Here we will create Larry
   }
 });

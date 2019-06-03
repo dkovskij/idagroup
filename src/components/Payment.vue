@@ -146,169 +146,169 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { mapState } from 'vuex';
+import axios from "axios";
+import { mapState } from "vuex";
 
-export default {  
-  name: "Payment",  
+export default {
+  name: "Payment",
   data() {
-    return {                  
+    return {
+      billNumber: 1234,
+      paymentSum: 100,
+      cardholderName: "",
       cardYear: [],
-      cardFirstInp: '',
-      cardScndInp: '',
-      cardThirdInp: '',
-      cardFrthInp: '',
-      cardNumber: [],           
+      cvvNumber: "",
+      cardFirstInp: "",
+      cardScndInp: "",
+      cardThirdInp: "",
+      cardFrthInp: "",
+      cardNumber: [],
       showMsg: false,
-      infoMsg: 'Пожалуйста, проверьте корректность введенных данных',
+      infoMsg: "Пожалуйста, проверьте корректность введенных данных",
       regexp: /[A-Za-z]/,
       isError: false,
-      selectedCardMonth: '',
-      selectedCardYear: '',          
+      selectedCardMonth: "",
+      selectedCardYear: "",
+      paymentDate: ''
     };
   },
   methods: {
     sendForm() {
-      let billNumber = this.billNumber
-      let paymentSum = this.paymentSum
-      let cardNumber = +this.cardNumber.join('')
-      let cardholderName = this.cardholderName
-      let cvvNumber = +this.cvvNumber
-      let selectedCardMonth = this.selectedCardMonth
-      let selectedCardYear = this.selectedCardYear
+      let billNumber = this.billNumber,
+        paymentSum = this.paymentSum,
+        cardNumber = +this.cardNumber.join(""),
+        cardholderName = this.cardholderName,
+        cvvNumber = +this.cvvNumber,
+        selectedCardMonth = this.selectedCardMonth,
+        selectedCardYear = this.selectedCardYear,
+        paymentDate = this.getDate,
+        formObj = {
+          billNumber,
+          paymentSum,
+          cardNumber,
+          cardholderName,
+          cvvNumber,
+          selectedCardMonth,
+          selectedCardYear,
+          paymentDate
+        };
 
-      let formObj = {
-        billNumber,
-        paymentSum,
-        cardNumber,
-        cardholderName,
-        cvvNumber,
-        selectedCardMonth,
-        selectedCardYear
-      }
-      
-      for (let key in formObj) {        
-        if (formObj[key].length == 0 ) {
-          alert('Пожалуйста, проверьте правильность введенных данных')
-          break
+      for (let key in formObj) {
+        if (formObj[key].length == 0) {
+          alert("Пожалуйста, проверьте правильность введенных данных");
+          break;
         }
       }
-      if ( this.cardNumber.join('').length < 16 || cvvNumber < 3 || !cardholderName.match(this.regexp)) {
-        alert('Пожалуйста, проверьте правильность введенных данных')
+
+      if (
+        this.cardNumber.join("").length < 16 ||
+        cvvNumber < 3 ||
+        !cardholderName.match(this.regexp)
+      ) {
+        alert("Пожалуйста, проверьте правильность введенных данных");
       } else {
-        this.$router.push('success')
-        axios.get('server', JSON.stringify(formObj))
-      .then(function(response) {        
+        this.$router.push("success");
+      }
+      this.setData(formObj);
+    },
+    setData(data) {
+      axios
+        .post(
+          "http://localhost:80/hh_test/idagroup/test/server/index.php",
+          data
+        )
+        .then(function(response) {
           // console.log(response)
-      })
-      }                          
-      
+        })
+        .catch(function(error) {
+          // console.log(error);
+        });
     },
     setCvvNumber(event) {
       if (event.target.value.length < 3) {
-        event.target.style.outline = '1px solid red'
+        event.target.style.outline = "1px solid red";
       } else {
-        event.target.style.outline = ''
+        event.target.style.outline = "";
       }
-
     },
     setBillNumber(event) {
       if (event.target.value.length === 0) {
-        event.target.style.outline = '1px solid red'
+        event.target.style.outline = "1px solid red";
       } else {
-        event.target.style.outline = ''
+        event.target.style.outline = "";
       }
     },
     setCardNumber(event) {
-      if (event.target.value.length < 4 || event.target.value < 0 || event.target.value.match(/[A-Za-zА-Яа-яЁё]/)) {
-        event.target.style.outline = '1px solid red'
+      if (
+        event.target.value.length < 4 ||
+        event.target.value < 0 ||
+        event.target.value.match(/[A-Za-zА-Яа-яЁё]/)
+      ) {
+        event.target.style.outline = "1px solid red";
       } else {
-        event.target.style.outline = ''
+        event.target.style.outline = "";
       }
     },
     setCardholderName() {
       if (this.cardholderName.length === 0) {
-        this.showMsg = false
-        this.isError = false
-      } else if ( this.cardholderName.length < 4 || !this.cardholderName.match(this.regexp) ) {
-        this.showMsg = true
-        this.isError = true
+        this.showMsg = false;
+        this.isError = false;
+      } else if (
+        this.cardholderName.length < 4 ||
+        !this.cardholderName.match(this.regexp)
+      ) {
+        this.showMsg = true;
+        this.isError = true;
       } else {
-        this.showMsg = false
-        this.isError = false
+        this.showMsg = false;
+        this.isError = false;
       }
     }
   },
   computed: {
     ...mapState({
-      billNumber: state => state.billNumber,
-      paymentSum: state => state.paymentSum,
-      cvvNumber: state => state.cvvNumber,
-      cardholderName: state => state.cardholderName,
       menuItems: state => state.menuItems
-      }),
-      billNumber: {
-        get () {
-          return this.$store.state.billNumber
-        },
-        set (value) {
-          this.$store.commit('updateBillNumber', value)
-        }
-      },
-      paymentSum: {
-        get () {
-          return this.$store.state.paymentSum
-        },
-        set (value) {
-          this.$store.commit('updatePaymentSum', value)
-        }
-      },
-      cvvNumber: {
-        get () {
-          return this.$store.state.cvvNumber
-        },
-        set (value) {
-          this.$store.commit('updateCvvNumber', value)
-        }
-      },
-      cardholderName: {
-        get () {
-          return this.$store.state.cardholderName
-        },
-        set (value) {
-          this.$store.commit('updateCardholderName', value)
-        }
-      },
-        getYear() {
-          let date = new Date()
-          return date.getFullYear()
-        },
-
-      },
+    }),
+    getYear() {
+      let date = new Date();
+      return date.getFullYear();
+    },
+    getDate() {
+      let date = new Date().toJSON().slice(0, 10);
+      return date;
+    }
+  },
   created() {
-    let startYear = this.getYear - 10
-        for (let i = 0; i < 20; i++) {
-          this.cardYear.push(startYear + i)
-      }      
+    let startYear = this.getYear - 10;
+    for (let i = 0; i < 20; i++) {
+      this.cardYear.push(startYear + i);
+    }
+    let headers = {
+      "Content-Type": "application/json"
+    };
   },
   updated() {
-    this.cardNumber = [this.cardFirstInp, this.cardScndInp, this.cardThirdInp, this.cardFrthInp]
-    // console.log(this.cardNumber)
-  },
+    this.cardNumber = [
+      this.cardFirstInp,
+      this.cardScndInp,
+      this.cardThirdInp,
+      this.cardFrthInp
+    ];
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/scss/style';
+@import "../assets/scss/style";
 .cvv-input-wrap::after {
-    content: "";
-    width: 30px;
-    height: 30px;
-    position: relative;
-    top: -37px;
-    left: 104px;
-    background: url('../assets/ask.png') no-repeat;
-    display: block;
+  content: "";
+  width: 30px;
+  height: 30px;
+  position: relative;
+  top: -37px;
+  left: 104px;
+  background: url("../assets/ask.png") no-repeat;
+  display: block;
 }
 </style>
 
