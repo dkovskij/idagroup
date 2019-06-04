@@ -8,7 +8,7 @@ $paymentList[] = array('payment'=>$data);
                         
 unset($file);           
           
-file_put_contents('history.json', json_encode($paymentList));  // Перекодировать в формат и записать в файл.
+file_put_contents('history.json', json_encode($paymentList));
           
 unset($paymentList); 
 
