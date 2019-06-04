@@ -12,17 +12,9 @@ export default {
 </script>
 
 <style lang="scss">
-* {
-  margin: 0;
-  padding: 0;
-}
+@import './assets/scss/style';
 body {
-  background-color: #101114;
-}
-#app {
-  font-family: 'Open Sans', sans-serif;
-  margin: 0 auto;
-  padding-top: 79px;
-  width: 960px;
+  background: #101114;
 }
 </style>
+

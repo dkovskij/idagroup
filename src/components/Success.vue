@@ -1,7 +1,11 @@
 <template>
    <div class="wrap">
     <div class="menu">
-      <div v-for="(item, index) in menuItems" :key="index" class="menu-item">{{item}}</div>
+      <router-link :to="item.itemPath" v-for="(item, index) in menuItems" :key="index">
+      <div class="menu-item">
+        {{item.itemText}}
+        </div>
+        </router-link>
     </div>
     <div class="congrat-wrap">
       <h2>Поздравляем с успешной оплатой!</h2>
@@ -73,8 +77,4 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-@import '../assets/scss/style';
-</style>
 

@@ -7,31 +7,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     menuItems: [
-      "Личный кабинет",
-      "Платежи",
-      "История платежей",
-      "Настройки",
-      "Выйти"
+      {itemText: "Личный кабинет", itemPath: '/'},
+      {itemText: "Платежи", itemPath: '/'},
+      {itemText: "История платежей", itemPath: '/history'},
+      {itemText: "Настройки", itemPath: '/'},
+      {itemText: "Выйти", itemPath: '/'}
     ],
   },
   
   getters: {
-    // Here we will create a getter
   },
   
-  mutations: {
-    updateBillNumber (state, number) {
-      state.billNumber = number
-    },
-    updatePaymentSum (state, number) {
-      state.paymentSum = number
-    },
-    updateCvvNumber (state, number) {
-      state.cvvNumber = number
-    },
-    updateCardholderName (state, number) {
-      state.cardholderName = number
-    },
+  mutations: {    
   },  
   actions: {
   }
