@@ -161,7 +161,6 @@ export default {
       }
 
       if (this.billNumber && this.paymentSum && isCardNumber && this.selectedCardMonth && this.selectedCardYear && this.cardholderName && this.cvvNumber) {
-        console.log(typeof this.cvvNumber);
         if ( this.cvvNumber.search(/[A-zА-яЁё]/g) != -1 ) {
           alert('Пожалуйста, проверьте правильность введенных данных!')
           return
@@ -236,7 +235,6 @@ export default {
       }
     },
     closeSuccess(e) {
-      console.log('asdf');
       this.isSuccess = e
       this.billNumber = null
       this.paymentSum = null
