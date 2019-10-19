@@ -1,34 +1,31 @@
 <template>
    <div class="wrap">
-    <div class="menu">
-      <router-link :to="item.itemPath" v-for="(item, index) in menuItems" :key="index">
-      <div class="menu-item">
-        {{item.itemText}}
-        </div>
-        </router-link>
-    </div>
+    <Menu></Menu>
     <div class="congrat-wrap">
+      <div class="close-success" @click="closeSuccess">
+        Закрыть
+      </div>
       <h2>Поздравляем с успешной оплатой!</h2>
       <div class="bill-number">
               <span class="operation-details payment-info">Номер счета</span>
-              <span>{{billNumber}}</span>
+              <span>{{payment.billNumber}}</span>
             </div>
             <div>
               <span class="operation-details payment-info">Сумма платежа</span>
               <span>
-                {{paymentSum}}
+                {{payment.paymentSum}}
               </span>
             </div>
             <div>
               <span class="operation-details payment-info">Имя и фамилия плательщика</span>
               <span>
-                {{cardholderName}}
+                {{payment.card.cardholderName}}
               </span>
             </div>
             <div>
               <span class="operation-details payment-info">Дата платежа</span>
               <span>
-                {{paymentDate}}
+                {{payment.date}}
               </span>
             </div>
     </div>
@@ -37,44 +34,26 @@
 <script>
 import { mapState } from 'vuex';
 import axios from 'axios'
+import Menu from './Menu'
 
 export default {
   name: "Success",
+  components: {
+    Menu
+  },
+  props: {
+    payment: {
+      type: Object
+    }
+  },
   data() {
-    return {      
-      paymentSum: '',
-      cardholderName: '',
-      billNumber: '', 
-      paymentDate: ''
+    return {
     }
   },
   methods: {
-    getData() {
-      let bill = this;
-
-    axios.get('http://localhost:80/hh_test/idagroup/test/server/history.json')
-     .then(function(response) {  
-       let dataLength = response.data.length - 1                  
-       bill.billNumber = response.data[dataLength].payment.billNumber
-       bill.paymentSum = response.data[dataLength].payment.paymentSum
-       bill.cardholderName = response.data[dataLength].payment.cardholderName             
-       bill.paymentDate = response.data[dataLength].payment.paymentDate             
-     })
-     .catch(function (error) {        
-       console.log(error)   
-     })
+    closeSuccess() {
+      this.$emit('on-close', false)
     }
-  },
-  computed: {
-    ...mapState({
-      menuItems: state => state.menuItems,       
-    }),     
-  },
-  mounted() {
-    setTimeout(() => {
-      this.getData()
-    }, 100);    
   },
 }
 </script>
-

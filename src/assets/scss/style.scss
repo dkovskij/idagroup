@@ -3,7 +3,7 @@
   padding: 0;
 }
 a{
-  text-decoration: none;  
+  text-decoration: none;
 }
 #app {
   font-family: 'Open Sans', sans-serif;
@@ -24,11 +24,18 @@ input {
   height: 75px;
   padding-left: 28px;
   line-height: 75px;
-  cursor: pointer; 
+  cursor: pointer;
   font-size: 15pt;
-  background-color: #1f2229;
-  color: white;
-     
+  background-color: #191c24;
+  color: #fff;
+
+  &:hover {
+    background-color: #1f2229;
+  }
+}
+.active-menu-item {
+  background-color: #2a2d37;
+  color: #808592;
 }
 .settings,
 .logout {
@@ -48,9 +55,13 @@ input {
 }
 .inp--border-none {
   border: none;
+  padding: 0 10px;
   background-color: #f7f8f8;
   font-family: Arial, sans-serif;
   font-size: 16pt;
+  color: #535864;
+}
+.operation-details {
   color: #bec6cf;
 }
 .payment-info {
@@ -73,16 +84,14 @@ input {
   padding: 25px 15px 15px;
   z-index: 1;
 }
+.card-input-wrap:nth-child(n+3) {
+  margin-left: 10px;
+}
 .card-input {
   width: 64px;
   height: 42px;
   border: 1px solid #e4e9ee;
   text-align: center;
-}
-#card-scnd-input,
-#card-third-input,
-#card-frth-input {
-  margin-left: 3px;
 }
 .active-period {
   margin-top: 10px;
@@ -151,7 +160,7 @@ input {
   margin-top: 13px;
 }
 .cvv-input-wrap {
-  margin-left: 216px;  
+  margin-left: 216px;
 }
 
 #cvv-input {
@@ -201,7 +210,14 @@ table {
 }
 td, th {
   border: 1px solid #6b717c;
-  padding: 0 10px;    
+  padding: 0 10px;
+}
+.table-header {
+  font-size: 15pt;
+}
+.close-success {
+  cursor: pointer;
+  text-align: right;
 }
 
 @media screen and (max-width: 1000px) {
@@ -218,7 +234,7 @@ td, th {
     border-bottom: 1px dotted white;
   }
   .card__data {
-    padding: 40px 50px 40px 100px;        
+    padding: 40px 50px 40px 100px;
   }
   .card-back {
     left: 294px;
@@ -228,7 +244,7 @@ td, th {
   .magnetic-strip{
     display: none;
   }
-.card-back {  
+.card-back {
   top: calc(58% - 200px);
     left: 31px;
     padding-bottom: 10px;
@@ -261,7 +277,7 @@ td, th {
    padding-top: 0;
  }
  .card__data {
-  
+
 }
 .card-back {
   top: 430px;
